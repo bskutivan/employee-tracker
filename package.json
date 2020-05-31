@@ -4,15 +4,14 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
-    "start": "node server.js",
-    "migrate": "mysql db/employee_tracker.db < db/schema.sql"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "Brandon",
   "license": "ISC",
   "dependencies": {
     "console.table": "^0.10.0",
-    "express": "^4.17.1",
+    "dotenv": "^8.2.0",
     "inquirer": "^7.1.0",
     "mysql2": "^2.1.0"
   },
