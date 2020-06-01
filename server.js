@@ -96,6 +96,21 @@ addDepartment = () => {
     })
 }
 
+//Add role
+
+addRole = () => {
+    const deptQuery = `SELECT name, id FROM department`;
+
+    db.query(deptQuery, (err, rows) => {
+        if(err) throw err;
+
+        const deptChoices = rows.map(dept => {
+            const deptChoice = {name: dept.name, value: dept.id};
+            console.log(deptChoice);
+        })
+    })
+}
+
 
 const promptInitialChoices = function() {
     inquirer.prompt([
@@ -134,6 +149,9 @@ const promptInitialChoices = function() {
         }
         if(initialChoices === "Add a department") {
             addDepartment();
+        }
+        if(initialChoices === "Add a role") {
+            addRole();
         }
     })
 }
