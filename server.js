@@ -6,7 +6,16 @@ db.connect(err => {
     if(err) {
         throw err;
     } 
-    console.log('connected as id' + db.threadId);
+    console.log(
+        `
+    ========================================================
+    ========================================================
+    ****                EMPLOYEE TRACKER                ****
+    ========================================================
+    ========================================================
+         `       
+    );
+
     promptInitialChoices();
 });
 
@@ -62,6 +71,7 @@ showAllEmpl = () => {
     db.query(sql, (err, rows) => {
         if(err) throw err;
         console.table(rows);
+
 
         promptInitialChoices();
     })
@@ -225,10 +235,26 @@ addEmployee = () => {
                     name: "roleSelection",
                     choices: roles
                 },
-                
+                {
+                    type: "list",
+                    message: "Who is their manager?",
+                    name: "managerSelection",
+                    choices: managers
+                }
             ])
+            .then(answer => {
+                const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+                            VALUES (?, ?, ?, ?)`;
+                const params = [answer.empFirstName, answer.empLastName, answer.roleSelection, answer.managerSelection]
+                db.query(sql, params, (err, result) => {
+                    if (err) throw err;
+                    console.log("Added employee " + answer.empFirstName + " " + answer.empLastName);
+
+                    showAllEmpl();
+                })
+            })
         })
-    })
+    });
 }
 
 
