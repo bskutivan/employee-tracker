@@ -21,8 +21,12 @@ showAllDept = () => {
     db.query(sql, (err, rows) => {
         if(err) throw err;
         console.table(rows);
+
+        promptInitialChoices();
     })
 };
+
+//Show all roles
 
 showAllRoles = () => {
     console.log('Showing all roles!');
@@ -33,10 +37,35 @@ showAllRoles = () => {
     db.query(sql, (err, rows) => {
         if(err) throw err;
         console.table(rows);
+
+        promptInitialChoices();
     })
 };
 
-showAllEmpl 
+//Show all employees
+
+showAllEmpl = () => {
+    console.log('Showing all employees!');
+
+    const sql = `SELECT e.id, 
+                        e.first_name, 
+                        e.last_name, 
+                        role.title, 
+                        department.name AS department, 
+                        role.salary, 
+                        CONCAT(emp_manager.first_name, " ",  emp_manager.last_name) AS manager 
+                FROM employee e 
+                        LEFT JOIN employee emp_manager ON e.manager_id = emp_manager.id 
+                        LEFT JOIN role ON e.role_id = role.id 
+                        LEFT JOIN department ON role.department_id = department.id`;
+
+    db.query(sql, (err, rows) => {
+        if(err) throw err;
+        console.table(rows);
+
+        promptInitialChoices();
+    })
+}
 
 
 const promptInitialChoices = function() {
@@ -70,6 +99,9 @@ const promptInitialChoices = function() {
         }
         if(initialChoices === "View all roles") {
             showAllRoles();
+        }
+        if(initialChoices === "View all employees") {
+            showAllEmpl();
         }
     })
 }
