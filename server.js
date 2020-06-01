@@ -199,8 +199,6 @@ addEmployee = () => {
                 return managers;
             });
 
-            console.log(roles);
-            console.log(managers);
 
             inquirer.prompt([
                 {
@@ -257,6 +255,34 @@ addEmployee = () => {
     });
 }
 
+//Update employee
+
+updateEmployee = () => {
+    const employeesQuery = `SELECT * FROM employee`;
+    const rolesQuery = `SELECT * FROM role`;
+
+    db.query(employeesQuery, (err, allEmployees) => {
+        if(err) throw err;
+        
+        db.query(rolesQuery, (err, allRoles) => {
+            if(err) throw err;
+
+            const employees = allEmployees.map(employee => {
+                const emp = {name: (employee.first_name + " " + employee.last_name), value: employee.id};
+                return emp;
+            })
+
+            const roles = allRoles.map(role => {
+                const eachRole = {name: role.title, value: role.id};
+                return eachRole;
+            })
+
+            console.log(employees);
+            console.log(roles);
+        })
+    })
+
+}
 
 const promptInitialChoices = function() {
     inquirer.prompt([
@@ -301,6 +327,9 @@ const promptInitialChoices = function() {
         }
         if(initialChoices === "Add an employee") {
             addEmployee();
+        }
+        if(initialChoices === "Update an employee role") {
+            updateEmployee();
         }
     })
 }
