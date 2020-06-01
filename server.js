@@ -169,7 +169,9 @@ addEmployee = () => {
                             mgr.id
                         FROM employee mgr
                         LEFT JOIN employee emp ON emp.manager_id = mgr.id
-                        WHERE emp.manager_id IS NOT NULL;`
+                        WHERE emp.manager_id IS NOT NULL`;
+
+    const rolesQuery = `SELECT id, title FROM role`;
 }
 
 
