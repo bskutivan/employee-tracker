@@ -277,12 +277,36 @@ updateEmployee = () => {
                 return eachRole;
             })
 
-            console.log(employees);
-            console.log(roles);
+            inquirer.prompt([
+                {
+                    type: "list",
+                    message: "Select from the employees",
+                    name: "employeeChoice",
+                    choices: employees
+                },
+                {
+                    type: "list",
+                    message: "What is their new role?",
+                    name: "roleChoice",
+                    choices: roles
+                }
+            ])
+            .then(answer => {
+                const sql = `UPDATE employee SET role_ID = ? WHERE id = ?`;
+                const params = [answer.employeeChoice, answer.roleChoice]
+
+                db.query(sql, params, (err) => {
+                    if(err) throw err;
+                    console.log("Updated " + answer.employeeChoice + "'s role to " + answer.roleChoice);
+
+                    showAllEmpl();
+                })
+            })
         })
     })
-
 }
+
+// Initialized prompt
 
 const promptInitialChoices = function() {
     inquirer.prompt([
