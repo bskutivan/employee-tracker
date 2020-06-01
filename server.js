@@ -144,8 +144,16 @@ addRole = () => {
             }
 
         ]).then(answer => {
-            console.log(answer);
-        })
+            const sql = `INSERT INTO role (title, salary, department_id)
+                        VALUES (?,?,?)`;
+            const params = [answer.addRoleTitle, answer.addRoleSal, answer.addRoleId]
+            db.query(sql, params, (err, rows) => {
+                if(err) throw err;
+                console.log("Added Role: " + answer.addRoleTitle);
+
+                showAllRoles();
+            });
+        });
     })
 }
 
