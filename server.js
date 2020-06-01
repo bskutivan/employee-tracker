@@ -67,6 +67,35 @@ showAllEmpl = () => {
     })
 }
 
+//Add new department
+
+addDepartment = () => {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "what department do you want to add?",
+            name: "addDepartment",
+            validate: departmentInput => {
+                if(!departmentInput) {
+                    console.log("Please input the name of the department");
+                    return false;
+                } else {
+                    return true;
+                }
+            } 
+        }
+    ]).then(answer => {
+        const sql = `INSERT INTO department (name)
+                    VALUES(?)`;
+        db.query(sql, answer.addDepartment, (err) => {
+            if(err) throw(err);
+            console.log("Added Department: " + answer.addDepartment);
+
+            showAllDept();
+        })
+    })
+}
+
 
 const promptInitialChoices = function() {
     inquirer.prompt([
@@ -102,6 +131,9 @@ const promptInitialChoices = function() {
         }
         if(initialChoices === "View all employees") {
             showAllEmpl();
+        }
+        if(initialChoices === "Add a department") {
+            addDepartment();
         }
     })
 }
