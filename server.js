@@ -106,7 +106,45 @@ addRole = () => {
 
         const deptChoices = rows.map(dept => {
             const deptChoice = {name: dept.name, value: dept.id};
-            console.log(deptChoice);
+            return deptChoice;
+        })
+
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "What role would you like to add?",
+                name: "addRoleTitle",
+                validate: roleTitleInput => {
+                    if(!roleTitleInput) {
+                        console.log('Please enter the title of the role!')
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            },
+            {
+                type: "input",
+                message: "What is the salary for this role?",
+                name: "addRoleSal",
+                validate: salaryInput => {
+                    if(!salaryInput === Number) {
+                        console.log('Please input the salary in numbers');
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            },
+            {
+                type: "list",
+                message: "What department is this role in?",
+                name: "addRoleId",
+                choices: deptChoices
+            }
+
+        ]).then(answer => {
+            console.log(answer);
         })
     })
 }
