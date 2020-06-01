@@ -157,6 +157,21 @@ addRole = () => {
     })
 }
 
+//Add employee
+
+addEmployee = () => {
+    const managerQuery = `SELECT
+                            emp.manager_id,
+                            emp.first_name,
+                            emp.last_name,
+                            mgr.first_name,
+                            mgr.last_name,
+                            mgr.id
+                        FROM employee mgr
+                        LEFT JOIN employee emp ON emp.manager_id = mgr.id
+                        WHERE emp.manager_id IS NOT NULL;`
+}
+
 
 const promptInitialChoices = function() {
     inquirer.prompt([
