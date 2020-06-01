@@ -191,6 +191,42 @@ addEmployee = () => {
 
             console.log(roles);
             console.log(managers);
+
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "What is their first name?",
+                    name: "empFirstName",
+                    validate: firstNameInput => {
+                        if(!firstNameInput)  {
+                            console.log('Please include all fields of the employees data.');
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+                {
+                    type: "input",
+                    message: "What is their last name?",
+                    name: "empLastName",
+                    validate: lastNameInput => {
+                        if(!lastNameInput)  {
+                            console.log('Please include all fields of the employees data.');
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                },
+                {
+                    type: "list",
+                    message: "What is the employees role?",
+                    name: "roleSelection",
+                    choices: roles
+                },
+                
+            ])
         })
     })
 }
