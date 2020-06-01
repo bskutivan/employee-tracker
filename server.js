@@ -172,6 +172,27 @@ addEmployee = () => {
                         WHERE emp.manager_id IS NOT NULL`;
 
     const rolesQuery = `SELECT id, title FROM role`;
+
+    db.query(managerQuery, (err, managerChoices) => {
+        if(err) throw err;
+
+        db.query(rolesQuery, (err, roleChoices) => {
+            if(err) throw err;
+
+            const roles = roleChoices.map(role => {
+                const roles = {name: role.title, value: role.id};
+                return roles;
+            });
+
+            const managers = managerChoices.map(mngr => {
+                const managers = {name: mngr.first_name + " " + mngr.last_name, value: mngr.id};
+                return managers;
+            });
+
+            console.log(roles);
+            console.log(managers);
+        })
+    })
 }
 
 
@@ -215,6 +236,9 @@ const promptInitialChoices = function() {
         }
         if(initialChoices === "Add a role") {
             addRole();
+        }
+        if(initialChoices === "Add an employee") {
+            addEmployee();
         }
     })
 }
